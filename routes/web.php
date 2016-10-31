@@ -14,3 +14,14 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/get-pdf', function () {
+
+    // формируем PDF вложение
+    $pdf = \Illuminate\Support\Facades\App::make('dompdf.wrapper');
+    $filename = mt_rand();
+    $pdf->loadView('pdf', ['data' => 'Привет!!!']); // return $pdf->stream('invoice.pdf');
+    $path = public_path($filename .'.pdf');
+    $pdf->save($path);
+    return $filename;
+});
